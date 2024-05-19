@@ -1,0 +1,126 @@
+.destination {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  height: 400px;
+}
+
+.btn-back {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+}
+
+.btn-back:hover {
+  background-color: #0056b3;
+}
+
+.destination-container {
+  padding: 4rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 4rem;
+  flex-wrap: wrap;
+}
+
+.destination-container h2 {
+  font-size: 2.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.destination-container p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 300;
+  max-width: 800px;
+}
+
+.info-wrapper {
+  max-width: 800px;
+}
+
+h3 {
+  margin: 3rem 0 1.3rem 0;
+  font-size: 2.4rem;
+}
+
+h4 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+}
+
+.destination-container ul li {
+  margin-bottom: 1rem;
+  margin-left: 3rem;
+}
+
+.booking-container {
+  width: 800px; /* Increased width for the container */
+  height: 300px; /* Increased height for the container */
+  padding: 1.4rem;
+  border: 2px solid #242424;
+  border-radius: 8px;
+  margin-top: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-grow: 1;
+  margin-top: 20px;
+}
+
+.booking-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-container {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.booking-info h5 {
+  font-size: 1rem;
+}
+
+.booking-info .price {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.btn-book {
+  background-color: #242424;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-book:hover {
+  background-color: #fff;
+  color: #242424;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
