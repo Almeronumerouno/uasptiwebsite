@@ -18,6 +18,9 @@
     "react-router-dom": "6.23.1",
     "framer-motion": "11.2.2"
   },
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts --openssl-legacy-provider build",
