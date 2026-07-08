@@ -1,6 +1,6 @@
 <div align="center">
 
-#  YogyAdventure
+#  Yogyadventure
 
 **UAS PTI Website — Yogyakarta Tourism Web App**
 
