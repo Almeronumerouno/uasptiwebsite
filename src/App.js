@@ -1,4 +1,3 @@
-// App.js
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Home from "./Home";
@@ -11,11 +10,14 @@ import KeratonYogyakarta from "./components/KeratonYogyakarta";
 import Malioboro from "./components/Malioboro";
 import ScrollToTop from "./components/ScrollToTop";
 import GoogleMaps from "./components/GoogleMaps";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/gunung-merapi" element={<GunungMerapi />} />
@@ -25,8 +27,9 @@ export default function App() {
         <Route path="/keraton-yogyakarta" element={<KeratonYogyakarta />} />
         <Route path="/malioboro" element={<Malioboro />} />
         <Route path="/google-maps" element={<GoogleMaps />} />
-        <Route path="/kuliner" element={<Kuliner />} />{" "}
+        <Route path="/kuliner" element={<Kuliner />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

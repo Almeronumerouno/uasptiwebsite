@@ -1,36 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+
+const libraries = ["places"];
 
 function GoogleMaps() {
   const navigate = useNavigate();
-  const [map, setMap] = useState(null);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap`;
-    script.async = true;
-    script.onload = () => {
-      initMap();
-    };
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  const initMap = () => {
-    const mapOptions = {
-      center: { lat: -7.801194, lng: 110.364917 },
-      zoom: 10,
-    };
-    const googleMap = new window.google.maps.Map(
-      document.getElementById("map"),
-      mapOptions
-    );
-    setMap(googleMap);
-  };
 
   const handleHide = () => {
     navigate("/");
@@ -39,8 +15,22 @@ function GoogleMaps() {
   return (
     <div style={styles.container}>
       <div style={styles.content}>
+        <div style={styles.headerLabel}>Peta Interaktif</div>
         <h1 style={styles.heading}>Lokasi Yogyakarta</h1>
-        <div id="map" style={styles.map}></div>
+        <div style={styles.goldLine}></div>
+        
+        <div style={styles.mapContainer}>
+          <iframe
+            title="Peta Interaktif Yogyakarta"
+            width="100%"
+            height="100%"
+            frameBorder="0"
+            style={{ border: 0 }}
+            src="https://maps.google.com/maps?q=-7.801194,110.364917&t=&z=10&ie=UTF8&iwloc=&output=embed"
+            allowFullScreen
+          />
+        </div>
+
         <button
           style={{
             ...styles.button,
@@ -50,7 +40,7 @@ function GoogleMaps() {
           onMouseLeave={() => setIsButtonHovered(false)}
           onClick={handleHide}
         >
-          Kembali
+          ← Kembali ke Beranda
         </button>
       </div>
     </div>
@@ -66,13 +56,13 @@ const styles = {
     left: 0,
     width: "100%",
     height: "100%",
-    backgroundColor: "#f0f2f5",
+    backgroundColor: "#06060f",
     zIndex: 9999,
     overflowY: "auto",
     display: "flex",
     justifyContent: "center",
     alignItems: "flex-start",
-    padding: "20px",
+    padding: "40px 20px",
   },
   content: {
     display: "flex",
@@ -80,75 +70,67 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
-    padding: "40px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    backgroundColor: "#ffffff",
-    maxWidth: "700px",
+    padding: "2.5rem",
+    borderRadius: "1rem",
+    border: "1px solid rgba(255, 255, 255, 0.08)",
+    backgroundColor: "rgba(255, 255, 255, 0.04)",
+    backdropFilter: "blur(10px)",
+    maxWidth: "750px",
     width: "100%",
-    animation: "fadeIn 2s ease-out",
+  },
+  headerLabel: {
+    color: "#f0c040",
+    fontSize: "0.85rem",
+    fontWeight: "600",
+    textTransform: "uppercase",
+    letterSpacing: "0.2rem",
+    marginBottom: "0.5rem",
+    fontFamily: "'Outfit', sans-serif",
   },
   heading: {
-    fontSize: "2.5rem",
-    marginBottom: "20px",
-    color: "#333",
-    fontFamily: "'Roboto', sans-serif",
-    animation: "waveAnimation 3s ease-in-out infinite",
+    fontSize: "2rem",
+    marginBottom: "1rem",
+    color: "#ffffff",
+    fontFamily: "'Outfit', sans-serif",
+    fontWeight: "700",
+    letterSpacing: "-0.02em",
+  },
+  goldLine: {
+    width: "60px",
+    height: "3px",
+    background: "#f0c040",
+    borderRadius: "2px",
+    marginBottom: "1.5rem",
+    boxShadow: "0 0 12px rgba(240, 192, 64, 0.3)",
+  },
+  mapContainer: {
+    width: "100%",
+    height: "400px",
+    marginBottom: "1.5rem",
+    borderRadius: "0.8rem",
+    overflow: "hidden",
+    border: "1px solid rgba(255, 255, 255, 0.06)",
   },
   map: {
     width: "100%",
-    height: "400px",
-    marginBottom: "20px",
-    borderRadius: "8px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  },
-  description: {
-    fontSize: "1.1rem",
-    marginBottom: "15px",
-    lineHeight: "1.6",
-    color: "#555",
-    fontFamily: "'Roboto', sans-serif",
+    height: "100%",
   },
   button: {
-    padding: "10px 20px",
-    fontSize: "1rem",
-    fontWeight: "bold",
-    backgroundColor: "#007bff",
-    color: "white",
+    padding: "0.7rem 2rem",
+    fontSize: "0.9rem",
+    fontWeight: "600",
+    background: "linear-gradient(135deg, #f0c040, #e8b830)",
+    color: "#0a0a1a",
     border: "none",
-    borderRadius: "5px",
+    borderRadius: "2rem",
     cursor: "pointer",
-    transition: "background-color 0.3s ease, transform 0.3s ease",
-    fontFamily: "'Roboto', sans-serif",
-    animation: "pulse 2s infinite",
+    transition: "all 0.3s ease",
+    fontFamily: "'Outfit', sans-serif",
+    letterSpacing: "0.03rem",
+    boxShadow: "0 2px 12px rgba(240, 192, 64, 0.2)",
   },
   buttonHover: {
-    backgroundColor: "#0056b3",
     transform: "scale(1.05)",
-    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
-  },
-};
-
-const waveAnimation = {
-  0: {
-    transform: "translateY(-5%)",
-  },
-  50: {
-    transform: "translateY(5%)",
-  },
-  100: {
-    transform: "translateY(-5%)",
-  },
-};
-
-const pulse = {
-  0: {
-    transform: "scale(1)",
-  },
-  50: {
-    transform: "scale(1.1)",
-  },
-  100: {
-    transform: "scale(1)",
+    boxShadow: "0 4px 20px rgba(240, 192, 64, 0.35)",
   },
 };

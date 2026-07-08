@@ -1,14 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logojogja.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
+import { FiVolume2, FiVolumeX } from "react-icons/fi";
 import jogjaSong from "../assets/SesuatuDiJogja.mp3";
 
 export default function Navbar() {
   const [navbarState, setNavbarState] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const playSegment = () => {
@@ -42,143 +55,285 @@ export default function Navbar() {
     };
   }, []);
 
+  const handleNavClick = (e, path, hash) => {
+    e.preventDefault();
+    setNavbarState(false);
+
+    if (location.pathname !== path) {
+      navigate(path);
+      if (hash) {
+        // Wait for the new page to render before scrolling
+        setTimeout(() => {
+          const element = document.getElementById(hash.substring(1));
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 150);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } else {
+      // Already on the target page
+      if (hash) {
+        const element = document.getElementById(hash.substring(1));
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <>
-      <Nav>
+      <Nav scrolled={scrolled}>
         <div className="brand">
-          <div className="container">
+          <a 
+            href="/"
+            className="container" 
+            style={{ textDecoration: 'none' }} 
+            onClick={(e) => handleNavClick(e, "/", null)}
+          >
             <img src={logo} alt="" />
-            Yogyakarta
-          </div>
-          <div className="toggle">
-            {navbarState ? (
-              <VscChromeClose onClick={() => setNavbarState(false)} />
-            ) : (
-              <GiHamburgerMenu onClick={() => setNavbarState(true)} />
-            )}
+            <span>Yogyakarta</span>
+          </a>
+          <div className="mobile-actions">
+            <button className="icon-btn mobile-mute" onClick={() => setIsMuted(!isMuted)}>
+              {isMuted ? <FiVolumeX /> : <FiVolume2 />}
+            </button>
+            <div className="toggle">
+              {navbarState ? (
+                <VscChromeClose onClick={() => setNavbarState(false)} />
+              ) : (
+                <GiHamburgerMenu onClick={() => setNavbarState(true)} />
+              )}
+            </div>
           </div>
         </div>
 
         <ul>
           <li>
-            <a href="#home">Home</a>
+            <a href="/#hero" onClick={(e) => handleNavClick(e, "/", "#hero")}>Beranda</a>
           </li>
           <li>
-            <a href="#destinasi">Destinasi</a>
+            <a href="/#destinasi" onClick={(e) => handleNavClick(e, "/", "#destinasi")}>Destinasi</a>
           </li>
           <li>
-            <Link to="/kuliner" onClick={() => setNavbarState(false)}>
-              Kuliner
-            </Link>
+            <a href="/#kuliner" onClick={(e) => handleNavClick(e, "/", "#kuliner")}>Kuliner</a>
           </li>
           <li>
-            <a href="#aboutus">About Us</a>
+            <a href="/#aboutus" onClick={(e) => handleNavClick(e, "/", "#aboutus")}>Tentang Kami</a>
           </li>
         </ul>
-        <Link to="/google-maps">
-          <button>GoogleMaps</button>
-        </Link>
+        
+        <div className="nav-actions">
+          <button className="icon-btn" onClick={() => setIsMuted(!isMuted)} title={isMuted ? "Bunyikan Musik" : "Matikan Musik"}>
+            {isMuted ? <FiVolumeX /> : <FiVolume2 />}
+          </button>
+          <Link to="/google-maps">
+            <button className="maps-btn">GoogleMaps</button>
+          </Link>
+        </div>
       </Nav>
       <ResponsiveNav state={navbarState}>
         <ul>
           <li>
-            <a href="#home" onClick={() => setNavbarState(false)}>
-              Home
-            </a>
+            <a href="/#hero" onClick={(e) => handleNavClick(e, "/", "#hero")}>Beranda</a>
           </li>
           <li>
-            <a href="#destinasi" onClick={() => setNavbarState(false)}>
-              Destinasi
-            </a>
+            <a href="/#destinasi" onClick={(e) => handleNavClick(e, "/", "#destinasi")}>Destinasi</a>
           </li>
           <li>
-            <Link to="/kuliner" onClick={() => setNavbarState(false)}>
-              Kuliner
-            </Link>
+            <a href="/#kuliner" onClick={(e) => handleNavClick(e, "/", "#kuliner")}>Kuliner</a>
           </li>
           <li>
-            <a href="#aboutus" onClick={() => setNavbarState(false)}>
-              About Us
-            </a>
+            <a href="/#aboutus" onClick={(e) => handleNavClick(e, "/", "#aboutus")}>Tentang Kami</a>
           </li>
         </ul>
       </ResponsiveNav>
-      <audio ref={audioRef} src={jogjaSong} loop playsInline />
+      <audio ref={audioRef} src={jogjaSong} loop playsInline muted={isMuted} />
     </>
   );
 }
 
 const Nav = styled.nav`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 clamp(1rem, 4vw, 4rem);
+  height: 70px;
+  background: ${({ scrolled }) =>
+    scrolled
+      ? "rgba(6, 6, 15, 0.95)"
+      : "rgba(6, 6, 15, 0.4)"};
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid
+    ${({ scrolled }) =>
+      scrolled
+        ? "rgba(240, 192, 64, 0.15)"
+        : "rgba(255, 255, 255, 0.05)"};
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
   .brand {
     .container {
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 0.4rem;
-      font-size: 1.2rem;
-      font-weight: 900;
-      text-transform: uppercase;
+      gap: 0.5rem;
+
+      img {
+        height: 34px;
+        width: 34px;
+        object-fit: contain;
+        background-color: #ffffff;
+        border-radius: 50%;
+        padding: 6px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+
+      span {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.15rem;
+        color: #ffffff;
+        background: linear-gradient(135deg, #ffffff 0%, rgba(240, 192, 64, 0.8) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
     }
-    .toggle {
+    .mobile-actions {
       display: none;
     }
   }
+
   ul {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     list-style-type: none;
+
     li {
       a {
         text-decoration: none;
-        color: #0077b6;
-        font-size: 1.7rem;
-        transition: 0.1s ease-in-out;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        font-weight: 500;
+        letter-spacing: 0.03rem;
+        transition: all 0.3s ease;
+        position: relative;
+        padding-bottom: 4px;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: var(--accent-gold);
+          transition: width 0.3s ease;
+          border-radius: 1px;
+        }
+
         &:hover {
-          color: #023e8a;
-        }
-      }
-      &:first-of-type {
-        a {
-          color: #023e8a;
-          font-weight: 900;
-          font-size: 1.7rem;
+          color: #f0c040;
+          -webkit-text-fill-color: initial;
+
+          &::after {
+            width: 100%;
+          }
         }
       }
     }
   }
-  button {
-    padding: 0.5rem 1rem;
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2rem;
     cursor: pointer;
-    border-radius: 1rem;
-    border: none;
-    color: white;
-    background-color: #48cae4;
-    font-size: 1.1rem;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
-    transition: 0.3s ease-in-out;
+    transition: all 0.3s ease;
+
     &:hover {
-      background-color: #023e8a;
+      background: rgba(240, 192, 64, 0.15);
+      color: #f0c040;
+      border-color: rgba(240, 192, 64, 0.3);
+      transform: scale(1.05);
     }
   }
-  @media screen and (min-width: 280px) and (max-width: 1080px) {
+
+  .maps-btn {
+    padding: 0.5rem 1.3rem;
+    cursor: pointer;
+    border-radius: 2rem;
+    border: none;
+    color: #0a0a1a;
+    background: linear-gradient(135deg, #f0c040, #e8b830);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 12px rgba(240, 192, 64, 0.2);
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(240, 192, 64, 0.35);
+    }
+  }
+
+  @media screen and (max-width: 1080px) {
     .brand {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
+
+      .mobile-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
       .toggle {
         display: block;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.4rem;
+        cursor: pointer;
+        transition: color 0.3s;
+        &:hover {
+          color: #f0c040;
+        }
       }
     }
     ul {
       display: none;
     }
-    button {
+    .nav-actions {
       display: none;
     }
   }
@@ -186,35 +341,39 @@ const Nav = styled.nav`
 
 const ResponsiveNav = styled.div`
   display: flex;
-  position: absolute;
-  z-index: 1;
-  top: ${({ state }) => (state ? "50px" : "-400px")};
-  background-color: white;
-  height: 30vh;
+  position: fixed;
+  z-index: 999;
+  top: ${({ state }) => (state ? "70px" : "-400px")};
+  left: 0;
+  background: rgba(6, 6, 15, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(240, 192, 64, 0.1);
   width: 100%;
   align-items: center;
-  transition: 0.3s ease-in-out;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 1.5rem 0;
+
   ul {
     list-style-type: none;
     width: 100%;
+
     li {
       width: 100%;
-      margin: 1rem 0;
-      margin-left: 2rem;
+      margin: 0.8rem 0;
+      padding-left: 2rem;
 
       a {
         text-decoration: none;
-        color: #0077b6;
-        font-size: 1.5rem;
-        transition: 0.1s ease-in-out;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        letter-spacing: 0.03rem;
+
         &:hover {
-          color: #023e8a;
-        }
-      }
-      &:first-of-type {
-        a {
-          color: #023e8a;
-          font-weight: 900;
+          color: #f0c040;
+          padding-left: 0.5rem;
         }
       }
     }
