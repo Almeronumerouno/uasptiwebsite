@@ -50,9 +50,58 @@ export default function Kuliner() {
 
   const [selectedFood, setSelectedFood] = useState(null);
 
+  const playPageTurnSound = () => {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      
+      const bufferSize = ctx.sampleRate * 0.45; // 450ms for a page turn feel
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1; // White noise (paper rustle)
+      }
+      
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      
+      // Lowpass filter to muffle the noise into a thick paper sound
+      const filter = ctx.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(800, ctx.currentTime);
+      filter.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.45);
+      
+      // Gain envelope to simulate the drag of a page
+      const gainNode = ctx.createGain();
+      gainNode.gain.setValueAtTime(0, ctx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.05); // Initial lift
+      gainNode.gain.exponentialRampToValueAtTime(0.25, ctx.currentTime + 0.15); // Slide
+      gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.45); // Finish
+      
+      noise.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      
+      noise.start();
+    } catch (e) {
+      console.log("Audio playback failed", e);
+    }
+  };
+
+  const handleCardClick = (destination) => {
+    playPageTurnSound();
+    setSelectedFood(destination);
+  };
+
+  const handleClose = () => {
+    playPageTurnSound(); // play sound when closing too!
+    setSelectedFood(null);
+  };
+
   React.useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") setSelectedFood(null);
+      if (e.key === "Escape") handleClose();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -83,16 +132,16 @@ export default function Kuliner() {
             <DestinationCard 
               key={index} 
               destination={destination} 
-              onClick={() => setSelectedFood(destination)} 
+              onClick={() => handleCardClick(destination)} 
             />
           );
         })}
       </div>
 
       {selectedFood && (
-        <ModalOverlay onClick={() => setSelectedFood(null)}>
+        <ModalOverlay onClick={() => handleClose()}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setSelectedFood(null)}>
+            <button className="close-btn" onClick={() => handleClose()}>
               <FiX />
             </button>
             <div className="scroll-area">
