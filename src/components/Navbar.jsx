@@ -96,7 +96,7 @@ export default function Navbar() {
             onClick={(e) => handleNavClick(e, "/", null)}
           >
             <img src={logo} alt="" />
-            <span>Yogyakarta</span>
+            <span>YOGYADVENTURE</span>
           </a>
           <div className="mobile-actions">
             <button className="icon-btn mobile-mute" onClick={() => setIsMuted(!isMuted)}>
