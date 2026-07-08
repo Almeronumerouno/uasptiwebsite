@@ -1,6 +1,6 @@
 <div align="center">
 
-#  Yogyadventure
+#  YogyAdventure
 
 **UAS PTI Website — Yogyakarta Tourism Web App**
 
@@ -14,65 +14,65 @@
 
 ---
 
-## 🌋 Tentang Proyek
+## 🌋 About the Project
 
-**YogyAdventure** adalah website tourism berbasis **React** yang mengenalkan keindahan wisata dan kuliner **Yogyakarta** — mulai dari candi bersejarah, keraton, pantai, hingga gunung berapi. Dibuat sebagai tugas **UAS Pengantar Teknologi Informasi (PTI) Website**, lengkap dengan navigasi multi-halaman, integrasi Google Maps, dan animasi scroll reveal.
+**YogyAdventure** is a **React**-based tourism website showcasing the beauty of **Yogyakarta**'s destinations and cuisine — from historic temples and the royal palace to beaches and an active volcano. Built as a final exam (UAS) project for **Introduction to Information Technology (PTI) Website**, complete with multi-page navigation, Google Maps integration, and scroll-reveal animations.
 
-## 🗺️ Destinasi & Fitur
+## 🗺️ Destinations & Features
 
-| Halaman | Konten |
+| Page | Content |
 |:---|:---|
-| 🏠 **Home** | Hero section & pengenalan wisata Yogyakarta |
-| 🌋 **Gunung Merapi** | Info & galeri wisata Gunung Merapi |
-| 🛕 **Candi Borobudur** | Info & galeri Candi Borobudur |
-| 🏖️ **Pantai Parangtritis** | Info & galeri Pantai Parangtritis |
-| 🏯 **Taman Sari** | Info & galeri Taman Sari |
-| 👑 **Keraton Yogyakarta** | Info & galeri Keraton Yogyakarta |
-| 🛍️ **Malioboro** | Info & galeri kawasan Malioboro |
-| 🍢 **Kuliner** | Rekomendasi kuliner khas Jogja (bakpia, gudeg, sate klathak, pecel, wedang ronde, krecek) |
-| 📍 **Google Maps** | Peta interaktif lokasi wisata |
-| ℹ️ **About Us** | Informasi tentang pembuat website |
+| 🏠 **Home** | Hero section & introduction to Yogyakarta tourism |
+| 🌋 **Mount Merapi** | Info & gallery for Mount Merapi |
+| 🛕 **Borobudur Temple** | Info & gallery for Borobudur Temple |
+| 🏖️ **Parangtritis Beach** | Info & gallery for Parangtritis Beach |
+| 🏯 **Taman Sari** | Info & gallery for the Taman Sari water castle |
+| 👑 **Yogyakarta Palace (Keraton)** | Info & gallery for the Yogyakarta Sultanate Palace |
+| 🛍️ **Malioboro** | Info & gallery for the Malioboro shopping district |
+| 🍢 **Culinary** | Recommended Jogja specialties (bakpia, gudeg, sate klathak, pecel, wedang ronde, krecek) |
+| 📍 **Google Maps** | Interactive map of tourist locations |
+| ℹ️ **About Us** | Information about the site's creators |
 
-## 🗂️ Struktur Proyek
+## 🗂️ Project Structure
 
 ```
 uasptiwebsite/
 ├── public/                    # Static assets & index.html
 ├── src/
-│   ├── App.js                  # Routing utama (React Router)
-│   ├── Home.js                  # Halaman home
-│   ├── assets/                   # Gambar, logo, audio, video destinasi
+│   ├── App.js                  # Main routing (React Router)
+│   ├── Home.js                  # Home page
+│   ├── assets/                   # Images, logos, audio, video for destinations
 │   └── components/
-│       ├── Navbar.jsx              # Navigasi atas
+│       ├── Navbar.jsx              # Top navigation bar
 │       ├── Hero.jsx                 # Hero section
-│       ├── Destinasi.jsx             # List destinasi
-│       ├── DestinationTemplate.jsx    # Template halaman destinasi
-│       ├── CandiBorobudur.jsx          # Halaman Candi Borobudur
-│       ├── GunungMerapi.jsx             # Halaman Gunung Merapi
-│       ├── PantaiParangtritis.jsx        # Halaman Pantai Parangtritis
-│       ├── TamanSari.jsx                  # Halaman Taman Sari
-│       ├── KeratonYogyakarta.jsx           # Halaman Keraton Yogyakarta
-│       ├── Malioboro.jsx                    # Halaman Malioboro
-│       ├── Makanan.jsx                       # Halaman Kuliner
-│       ├── GoogleMaps.jsx                     # Integrasi Google Maps
-│       ├── Aboutus.jsx                         # Halaman About Us
-│       ├── ScrollToTop.jsx                      # Reset scroll saat pindah halaman
-│       └── Footer.jsx                            # Footer situs
+│       ├── Destinasi.jsx             # Destination list
+│       ├── DestinationTemplate.jsx    # Shared destination page template
+│       ├── CandiBorobudur.jsx          # Borobudur Temple page
+│       ├── GunungMerapi.jsx             # Mount Merapi page
+│       ├── PantaiParangtritis.jsx        # Parangtritis Beach page
+│       ├── TamanSari.jsx                  # Taman Sari page
+│       ├── KeratonYogyakarta.jsx           # Yogyakarta Palace page
+│       ├── Malioboro.jsx                    # Malioboro page
+│       ├── Makanan.jsx                       # Culinary page
+│       ├── GoogleMaps.jsx                     # Google Maps integration
+│       ├── Aboutus.jsx                         # About Us page
+│       ├── ScrollToTop.jsx                      # Resets scroll position on page change
+│       └── Footer.jsx                            # Site footer
 └── package.json                # Dependencies & scripts
 ```
 
 ## 🛠️ Tech Stack
 
-- **React 17** + **React Router 6** — SPA & routing multi-halaman
-- **Styled Components** — styling berbasis komponen
-- **ScrollReveal** — animasi saat scroll
-- **React Icons** — ikon UI
-- **@react-google-maps/api** — integrasi peta interaktif
+- **React 17** + **React Router 6** — SPA and multi-page routing
+- **Styled Components** — component-based styling
+- **ScrollReveal** — scroll-triggered animations
+- **React Icons** — UI icons
+- **@react-google-maps/api** — interactive map integration
 - **Create React App (react-scripts)** — build tooling
 
-## 🚀 Cara Menjalankan
+## 🚀 Getting Started
 
-1. Clone repository ini:
+1. Clone this repository:
    ```bash
    git clone https://github.com/Almeronumerouno/uasptiwebsite.git
    cd uasptiwebsite
@@ -81,14 +81,14 @@ uasptiwebsite/
    ```bash
    npm install
    ```
-3. Jalankan development server:
+3. Start the development server:
    ```bash
    npm start
    ```
-4. Buka `http://localhost:3000` di browser.
+4. Open `http://localhost:3000` in your browser.
 
-## 📝 Catatan
+## 📝 Notes
 
-- Proyek ini dibuat untuk keperluan tugas **UAS mata kuliah PTI Website**.
-- Menggunakan Node.js versi `24.x` (lihat field `engines` di `package.json`).
-- Fitur Google Maps membutuhkan API key yang valid untuk berfungsi penuh.
+- This project was built for the **UAS (final exam) assignment for PTI Website** course.
+- Uses Node.js version `24.x` (see the `engines` field in `package.json`).
+- The Google Maps feature requires a valid API key to work fully.
